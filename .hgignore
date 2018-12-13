@@ -24,3 +24,5 @@ syntax: regexp
 ^config/ant/JarFile_lib_CRAFTY_CoBRA_Demo\.xml$
 syntax: regexp
 ^config/ant/JarFile_lib_CRAFTY_CoBRA_IMPRESSIONS\.xml$
+syntax: regexp
+^data/worlds$
