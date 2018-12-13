@@ -1,3 +1,0 @@
-<production class="org.volante.abm.example.DynamicMaxProductionModel"  
-	csvFile="csv/DynamicMaxProduction.csv"
-	allowImplicitMultiplication="true"/>

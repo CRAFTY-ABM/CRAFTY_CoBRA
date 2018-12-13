@@ -1,5 +1,0 @@
-<bTypes>
-	<bType label="Cognitor" serialID="1" class="org.volante.abm.agent.bt.PseudoBT">
-		<agentProperty name="EXPERIENCE">10</agentProperty>
-	</bType>
-</bTypes>

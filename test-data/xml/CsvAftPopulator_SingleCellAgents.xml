@@ -1,4 +1,0 @@
-<aftPopulator class="org.volante.abm.serialization.CsvAftPopulator">
-	<csvFile>./csv/Region_CsvAgentPopulator_SingleCellAgents.csv</csvFile>
-	<manageEveryHomeCell>true</manageEveryHomeCell>
-</aftPopulator>
