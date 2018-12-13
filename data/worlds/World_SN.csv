@@ -1,2 +1,0 @@
-pid,ID,Competition,Allocation,Demand,Behavioural Types,Functional Roles,Cell Initialisers,Social Network,Agent Initialisers,LARA Model,Initialisers,Updaters
-0,EU,xml/Competition.xml,xml/GuGiAllocation.xml,xml/RegionalDemand.xml,agents/BehaviouralTypes.xml,agents/FunctionalRoles.xml,xml/CSVCells.xml,/worlds/EU/regionalisations/28/socialnetwork/28_EU_SocialNetwork_HDFF.xml,Agents not implemented,lara/RegionalLaraModel.xml,xml/Initialiser.xml,xml/CsvCapitalUpdater.xml
