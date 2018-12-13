@@ -3,6 +3,7 @@
 	<name>CRAFTY_CoBRA_Trunk</name>
 	<comment></comment>
 	<projects>
+		<project>CRAFTY_Trunk</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

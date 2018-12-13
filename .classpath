@@ -10,7 +10,6 @@
 	<classpathentry kind="lib" path="lib/commons-cli-1.2.jar"/>
 	<classpathentry kind="lib" path="lib/commons-math3-3.2.jar"/>
 	<classpathentry kind="lib" path="lib/CRAFTY-CoBRA.jar"/>
-	<classpathentry kind="lib" path="lib/CRAFTY.jar"/>
 	<classpathentry kind="lib" path="lib/geoapi-20050403.jar"/>
 	<classpathentry kind="lib" path="lib/gt-api-9.0.jar"/>
 	<classpathentry kind="lib" path="lib/gt-data-9.0.jar"/>
