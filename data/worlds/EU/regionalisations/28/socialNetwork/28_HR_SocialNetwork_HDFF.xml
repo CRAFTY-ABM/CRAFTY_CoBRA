@@ -1,0 +1,26 @@
+<socialNetworks>
+	<socialNetwork name="SocialNetwork-HDFF">
+		<networkGeneratorClass>de.cesr.more.geo.building.network.MGeoHomophilyDistanceFfNetworkService</networkGeneratorClass>
+		<initTick>2010</initTick>
+		
+		<Boolean param="org.volante.abm.param.SocialNetworkPa:OUTPUT_NETWORK_AFTER_CREATION">TRUE</Boolean>
+		<String param="org.volante.abm.param.SocialNetworkPa:OUTPUT_NETWORK_AFTER_CREATION_TICKPATTERN">%o-%r</String>
+		<Integer param="de.cesr.more.param.MBasicPa:MILIEU_START_ID">0</Integer>
+		<Integer param="de.cesr.more.param.MRandomPa:RANDOM_SEED_NETWORK_BUILDING">42</Integer>
+		<String  param="de.cesr.more.param.MNetworkBuildingPa:MILIEU_NETWORK_CSV_COLUMNPREFIX">de.cesr.more.param.</String>
+		<Character param="de.cesr.more.param.MNetworkBuildingPa:MILIEU_NETWORK_CSV_DELIMITER">,</Character>
+		
+		<Boolean  param="de.cesr.more.param.MNetworkBuildingPa:BUILD_DIRECTED">TRUE</Boolean>
+		<Boolean param="de.cesr.more.param.MNetBuildBhPa:DISTANT_FORCE_MILIEU">FALSE</Boolean>
+		<String param="de.cesr.more.param.MNetBuildHdffPa:HEXAGON_INITIALISER_CLASS">de.cesr.more.rs.geo.util.MGeoHexagon1stLayer$MGeoHexagonInitialiser</String>
+		<String param="de.cesr.more.param.MNetBuildHdffPa:HEXAGON_SHAPEFILE">data//worlds/EU/regionalisations/28/socialnetwork/hexagonshapes/HR/hexagons_HR_10_1st.shp</String>
+		<String param="de.cesr.more.param.MNetBuildHdffPa:HEXAGON_SHAPEFILE_2ND">data//worlds/EU/regionalisations/28/socialnetwork/hexagonshapes/HR/hexagons_HR_5_2nd.shp</String>
+		<Integer param="de.cesr.more.param.MNetBuildHdffPa:AGENT_SHUFFLE_INTERVAL">100</Integer>
+		
+		<DYN_EDGE_WEIGHT_UPDATER>de.cesr.more.manipulate.agent.MPseudoEgoNetworkProcessor</DYN_EDGE_WEIGHT_UPDATER>		
+		<DYN_EDGE_MANAGER>de.cesr.more.manipulate.agent.MPseudoEgoNetworkProcessor</DYN_EDGE_MANAGER>
+		
+		<abtParams>${@@(socialNetworks/SocialNetworkABTParameter_Hdff.csv; SocialNetworkABTParameterHDFF)}</abtParams>
+		<abtLinkParams>${@@(socialNetworks/SocialNetworkABTLinksParameter.csv; SocialNetworkABTLinksParameter)}</abtLinkParams>
+	</socialNetwork>
+</socialNetworks>

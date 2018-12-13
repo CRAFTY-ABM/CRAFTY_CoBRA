@@ -1,0 +1,6 @@
+DefaultPath,ID,Value
+../worlds/%w/regionalisations/%k/capitals,CapitalFolder,./worlds/EU/regionalisations/28/capitals
+agents,AftParamFolder,agents
+socialNetworks/SocialNetworkABTParameter_Hdff.csv,SocialNetworkABTParameterHDFF,socialNetworks/SocialNetworkABTParameter_Hdff.csv
+socialNetworks/SocialNetworkABTLinksParameter.csv,SocialNetworkABTLinksParameter,socialNetworks/SocialNetworkABTLinksParameter.csv
+worlds/%w/regionalisations/%k/%s,demandFolder,worlds/%w/regionalisations/%k/%s

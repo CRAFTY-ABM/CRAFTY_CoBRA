@@ -1,0 +1,49 @@
+<LBoFactoryList>
+	<bofactory class="org.volante.abm.comi.decision.pa.ComiOfAdoptionPa$ComiOfAdoptionPaFactory">
+		 <key>Conv_AdoptOF_NA_Cluster2_LV</key>	 
+		 <attitude class="com.moseph.modelutils.distribution.NormalDistribution" 
+		 	mean="0.37" sd="0.2"	/>
+		 <uncertainty_a class="com.moseph.modelutils.distribution.NormalDistribution" 
+		 	mean="0.53" sd="0.09"/>
+		 <subjectiveNorm class="com.moseph.modelutils.distribution.NormalDistribution" 
+		 	mean="0.61" sd="0.1"/>
+		 <uncertainty_sn class="com.moseph.modelutils.distribution.NormalDistribution" 
+		 	mean="1.11" sd="0.28"/>
+		 <behaviouralControl class="com.moseph.modelutils.distribution.NormalDistribution" 
+		 	mean="0.79" sd="0.09"/>
+		 	
+		 <preferenceUtilities>
+			 <utility pref="WAttitude">1.0</utility>
+			 <utility pref="WSubjectiveNorm">1.0</utility>
+			 <utility pref="WPBC">1.0</utility>
+		 </preferenceUtilities>
+		 <agentclassname>org.volante.abm.agent.bt.LaraBehaviouralComponent</agentclassname>
+	</bofactory>
+	
+	<bofactory class="org.volante.abm.decision.pa.DoNothingPa$DoNothingPaFactory">
+		 <key>Conc_DoNothing_LV</key>
+		 <threshold>0.6</threshold>
+		 <preferenceUtilities>
+			 <utility pref="THRESHOLD">1.0</utility>
+		 </preferenceUtilities>
+		 <agentclassname>org.volante.abm.agent.bt.LaraBehaviouralComponent</agentclassname>
+	</bofactory>
+		<bofactory class="org.volante.abm.comi.decision.pa.ComiSwitchBackPa$ComiSwitchBackPaFactory">
+		 <key>OF_SwitchConc_NA_Cluster2_LV</key>	 
+		 <preferenceUtilities>
+			 <utility pref="WAttitude">1.0</utility>
+			 <utility pref="WSubjectiveNorm">1.0</utility>
+			 <utility pref="WPBC">1.0</utility>
+		 </preferenceUtilities>
+		 <agentclassname>org.volante.abm.agent.bt.LaraBehaviouralComponent</agentclassname>
+	</bofactory>
+	
+	<bofactory class="org.volante.abm.decision.pa.DoNothingPa$DoNothingPaFactory">
+		 <key>OF_DoNothing_LV</key>
+		 <threshold>-0.6</threshold>
+		 <preferenceUtilities>
+			 <utility pref="THRESHOLD">-1.0</utility>
+		 </preferenceUtilities>
+		 <agentclassname>org.volante.abm.agent.bt.LaraBehaviouralComponent</agentclassname>
+	</bofactory>
+</LBoFactoryList>

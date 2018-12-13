@@ -1,0 +1,8 @@
+<cellInitialiser class="org.volante.abm.serialization.CsvAftPopulator">
+	<taggedHomeCells>false</taggedHomeCells>
+	<manageEveryHomeCell>true</manageEveryHomeCell>
+	<xColumn>x</xColumn>
+	<yColumn>y</yColumn>
+	<unmanagedIdentifier>UNMANAGED</unmanagedIdentifier>
+	<csvFile>${@@(../worlds/%w/regionalisations/%k/capitals; CapitalFolder)/%r_capitals - 2016.csv}</csvFile>
+</cellInitialiser>

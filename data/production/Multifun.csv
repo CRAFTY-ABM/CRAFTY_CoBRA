@@ -1,0 +1,8 @@
+,Crop.productivity,Forest.productivity,Grassland.productivity,Financial.capital,Human.capital,Social.capital,Manufactured.capital,Urban.capital,Production
+Meat,0,0,0.7,0.7,0.4,0.5,0,0,388
+Crops,0.1,0,0.1,0.3,0.2,0.3,0.2,0,774
+Diversity,0,0,0,0,0,0,0,0,0.89
+Timber,0,0.9,0.1,0.2,0.1,0.1,0.2,0,62
+Carbon,0,0,0,0,0,0,0,0,2232
+Urban,0,0,0,0,0,0,0,0,0
+Recreation,0,0,0,0.4,0.7,0.3,0.6,0,0.5

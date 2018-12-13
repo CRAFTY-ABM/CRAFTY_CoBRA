@@ -1,0 +1,9 @@
+Name,Index
+Crop.productivity,0
+Forest.productivity,1
+Grassland.productivity,2
+Financial.capital,3
+Human.capital,4
+Social.capital,5
+Manufactured.capital,6
+Urban.capital,7

@@ -1,0 +1,4 @@
+<allocation class="org.volante.abm.example.GiveUpGiveInAllocationModel" 
+	percentageCells="5" percentageTakeOvers="5"/>
+	<!--  	percentageCells="5" percentageTakeOvers="5"/> -->
+	

@@ -1,0 +1,4 @@
+<institution class="org.volante.abm.institutions.CapitalDynamicsInstitution">
+	<capitalAdjustmentsCSV>worlds/%w/regionalisations/%k/%s/${@(Runs.csv, capitalFactorsCSV)}</capitalAdjustmentsCSV>
+	<tickCol>Year</tickCol>
+</institution>
