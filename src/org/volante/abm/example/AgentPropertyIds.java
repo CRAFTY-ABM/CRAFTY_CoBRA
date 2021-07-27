@@ -75,7 +75,6 @@ public enum AgentPropertyIds implements PropertyId {
 	// Wheter FR is mutable or not 
 	FR_IMMUTABLE,
 	PROTECTED_L1,
-	PROTECTED_L2, 
-
+	PROTECTED_L2
 	
 }
