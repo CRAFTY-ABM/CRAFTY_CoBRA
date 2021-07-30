@@ -177,6 +177,10 @@ public class RegionSet implements Regions {
 		this.id = id;
 	}
 
+	
+	
+//	setId이용해서 이름 주기 아마도 world name? 
+	
 	/**
 	 * @see org.volante.abm.data.Regions#getNumCells()
 	 */

@@ -60,11 +60,15 @@ public class CellInfoDisplay extends JPanel {
 
 	public CellInfoDisplay() {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		
+//		this.setLayout(new ScrollPaneLayout(this, ScrollPaneLayout));
+		
 		owner.setLineWrap(true);
 		JScrollPane ownerScroll = new JScrollPane(owner);
 		ownerScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		ownerScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
+ 		
 		Box location = new Box(BoxLayout.Y_AXIS);
 		location.add(xLoc);
 		location.add(yLoc);
@@ -75,7 +79,10 @@ public class CellInfoDisplay extends JPanel {
 		addPanel(baseCapitalDisplay.getDisplay(), "Base Capitals");
 		addPanel(productionDisplay.getDisplay(), "Productivity");
 		addPanel(competitivenessDisplay.getDisplay(), "Competitiveness");
-		addPanel(unadjustedCompetitivenessDisplay.getDisplay(), "Unadjusted Competitiveness");
+		
+		JComponent unadjDisp = unadjustedCompetitivenessDisplay.getDisplay();
+//		unadjDisp.setMaximumSize(new Dimension (100, 100));
+		addPanel(unadjDisp, "Unadjusted Competitiveness");
 		setPreferredSize(new Dimension(250, 700));
 		clearCell();
 
@@ -88,6 +95,7 @@ public class CellInfoDisplay extends JPanel {
 		cDisp.setPreferredSize(new Dimension(250, 170));
 		cDisp.setMaximumSize(new Dimension(250, 170));
 		cDisp.setAlignmentX(0.5f);
+		
 		add(cDisp);
 	}
 
@@ -103,6 +111,7 @@ public class CellInfoDisplay extends JPanel {
 		unadjustedCompetitivenessDisplay.setMap(getUnadjustedCompetitivenessMap(c));
 		owner.setText(c.getOwnersFrLabel() + "\n"
 				+ (c.getOwner() != null ? c.getOwner().infoString() : ""));
+//		owner.setMinimumSize(new Dimension(250, 700));
 		setCellXY(c.getX(), c.getY());
 		setCellRegion(c.getRegion());
 		revalidate();
