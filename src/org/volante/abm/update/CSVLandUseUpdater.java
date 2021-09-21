@@ -137,7 +137,7 @@ public class CSVLandUseUpdater extends AbstractUpdater implements TakeoverMessen
 					cell.setObjectProperty(AgentPropertyIds.FR_IMMUTABLE, false);
 					cell.setObjectProperty(AgentPropertyIds.PROTECTED_L1, false);
 					cell.setObjectProperty(AgentPropertyIds.PROTECTED_L2, false);
-
+					cell.setObjectProperty(AgentPropertyIds.PROTECTED_L0, false);
 				});
 			}
 

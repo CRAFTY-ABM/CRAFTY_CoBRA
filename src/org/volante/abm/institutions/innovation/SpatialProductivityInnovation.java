@@ -52,8 +52,18 @@ import org.volante.abm.schedule.RunInfo;
  * @author Bumsuk Seo
  *
  */
-public class SpatialProductivityInnovation extends Innovation implements PostTickAction {
+public class SpatialProductivityInnovation extends RepeatingProductivityInnovation implements PostTickAction {
 
+	
+	
+	// https://www.wiki.ed.ac.uk/display/CRAFTY/CoBRA%3A+Behavioural+Types
+	// agent must be an instance of InnovativeBC
+	// should create a new BC (non-lara) 
+	
+	
+	
+	 
+	
 	/**
 	 * Logger
 	 */
@@ -194,6 +204,8 @@ public class SpatialProductivityInnovation extends Innovation implements PostTic
 			logger.warn("The affected functional role is not an IndividualProductionFunctionalComponent, and changes are likely to"
 					+ " have side effects on other agents!");
 		}
+		
+		logger.info("im here");
 
 		if (pModel instanceof SimpleProductionModel) {
 			for (Service service : this.affectedServiceSet) {
