@@ -50,9 +50,9 @@ public class FrSpatialRestrictingInstitution extends FrRestrictingInstitution {
 		boolean masked = (boolean) cell.getObjectProperty(AgentPropertyIds.valueOf(spatialLayer));
 
 		if (!masked) {
-			return true; // allowed as not masked 
+			return true; // allowed if not masked 
 		}
-
+ 
 		String label2request =
 				(cell.getOwner().getFC().getFR().getLabel().equals(Agent.NOT_MANAGED_FR_ID) ? this.labelUnmanaged
 						: cell.getOwner().getFC().getFR().getLabel());

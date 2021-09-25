@@ -268,7 +268,7 @@ public class Region implements Regions, PreTickAction {
 				// LOGGING ->
 			} catch (Exception e) { 
 
-				logger.error("Geography is null and failed to generate one");
+				logger.debug("Geography is null and failed to generate one");
 				//				e.printStackTrace();
 
 			}

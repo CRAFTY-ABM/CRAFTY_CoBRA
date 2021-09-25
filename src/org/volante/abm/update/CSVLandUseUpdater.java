@@ -227,9 +227,8 @@ public class CSVLandUseUpdater extends AbstractUpdater implements TakeoverMessen
 			boolean masked = reader.get(restrictionColumn).equalsIgnoreCase(maskChar);
 			// logger.trace(yn);
 
-			// Update only when it's true (for having multiple FR restriction csvs) 
+			// Renew mask only when it's true  
 			if (masked) {
-				// Set the property true
 				cell.setObjectProperty(AgentPropertyIds.valueOf(restrictionColumn), masked);
 			}
 
