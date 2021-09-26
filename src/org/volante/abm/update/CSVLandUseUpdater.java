@@ -132,12 +132,10 @@ public class CSVLandUseUpdater extends AbstractUpdater implements TakeoverMessen
 		try {
 
 			if (region!=null) {
-				// Reset fr mutable mask
+				// Reset mask
 				((Collection<Cell>) this.region.getAllCells()).parallelStream().forEach(cell -> {
-					cell.setObjectProperty(AgentPropertyIds.FR_IMMUTABLE, false);
-					cell.setObjectProperty(AgentPropertyIds.PROTECTED_L1, false);
-					cell.setObjectProperty(AgentPropertyIds.PROTECTED_L2, false);
-					cell.setObjectProperty(AgentPropertyIds.PROTECTED_L0, false);
+					cell.setObjectProperty( AgentPropertyIds.valueOf(restrictionColumn), false);
+ 
 				});
 			}
 

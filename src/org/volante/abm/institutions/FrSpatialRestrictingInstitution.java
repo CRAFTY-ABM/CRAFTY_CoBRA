@@ -63,7 +63,16 @@ public class FrSpatialRestrictingInstitution extends FrRestrictingInstitution {
 			// LOGGING ->
 			return true;
 		} else {
-			return restrictedRoles.get(label2request, fr.getLabel()) <= 0;
+			
+			boolean allowed = restrictedRoles.get(label2request, fr.getLabel()) <= 0;
+			
+			if (!allowed) { 
+			// <- LOGGING
+			logger.trace( fr.getLabel() + ">" + label2request +" not allowed due to " + spatialLayer);
+			// LOGGING ->
+			}
+			
+			return allowed;
 		}
 
 	}
