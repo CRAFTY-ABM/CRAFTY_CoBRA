@@ -5,3 +5,5 @@ output/
 gradle/
 
 *.prefs
+
+.project
