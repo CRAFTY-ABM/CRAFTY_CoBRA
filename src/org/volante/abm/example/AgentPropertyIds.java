@@ -74,7 +74,10 @@ public enum AgentPropertyIds implements PropertyId {
 	
 	// Whether FR is mutable or not 
 	FR_IMMUTABLE,
+	
+	// @TODO make PA layers configurable in XML 
 	PROTECTED_L1,
-	PROTECTED_L2,
-	PROTECTED_L0	
+	PROTECTED_L2, 
+	PROTECTED_L0
+	
 }
