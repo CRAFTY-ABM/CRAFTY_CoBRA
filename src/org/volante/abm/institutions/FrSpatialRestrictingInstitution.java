@@ -4,28 +4,22 @@
 package org.volante.abm.institutions;
 
 
-import java.io.IOException;
-import java.util.Set;
-
 import org.apache.log4j.Logger;
 import org.simpleframework.xml.Element;
 import org.volante.abm.agent.Agent;
 import org.volante.abm.agent.fr.FunctionalRole;
 import org.volante.abm.data.Cell;
-import org.volante.abm.data.ModelData;
-import org.volante.abm.data.Region;
+ 
 import org.volante.abm.example.AgentPropertyIds;
-import org.volante.abm.schedule.RunInfo;
-import org.volante.abm.serialization.ABMPersister;
-
-import com.google.common.collect.Table;
+ 
 
 
 /**
- * @author Sascha Holzhauer
- * 		   Bumsuk Seo
+ * @author Bumsuk Seo
+ * 		   Sascha Holzhauer
  *
  */
+
 public class FrSpatialRestrictingInstitution extends FrRestrictingInstitution {
 
 	/**

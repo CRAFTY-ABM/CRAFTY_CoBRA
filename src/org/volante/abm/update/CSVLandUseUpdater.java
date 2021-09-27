@@ -32,17 +32,13 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.ElementMap;
-import org.volante.abm.agent.GeoAgent;
 import org.volante.abm.agent.LandUseAgent;
-import org.volante.abm.agent.SocialAgent;
 import org.volante.abm.agent.assembler.DefaultSocialAgentAssembler;
-import org.volante.abm.data.Capital;
 import org.volante.abm.data.Cell;
 import org.volante.abm.data.ModelData;
 import org.volante.abm.data.Region;
 import org.volante.abm.example.AgentPropertyIds;
 import org.volante.abm.example.allocation.AgentFinder;
-import org.volante.abm.institutions.LanduseControllingInstitution;
 import org.volante.abm.models.utils.CellVolatilityObserver;
 import org.volante.abm.models.utils.GivingInStatisticsMessenger;
 import org.volante.abm.models.utils.TakeoverMessenger;
@@ -53,8 +49,7 @@ import org.volante.abm.serialization.ABMPersister;
 import org.volante.abm.serialization.transform.IntTransformer;
 
 import com.csvreader.CsvReader;
-import com.moseph.modelutils.fastdata.DoubleMap;
-
+ 
 
 /**
  * Reads protected land use for ticks from a CSV file and controls land use competition 
@@ -225,7 +220,7 @@ public class CSVLandUseUpdater extends AbstractUpdater implements TakeoverMessen
 			boolean masked = reader.get(restrictionColumn).equalsIgnoreCase(maskChar);
 			// logger.trace(yn);
 
-			// Renew mask only when it's true  
+			// Renew mask when true (set all false in prePreTick() )  
 			if (masked) {
 				cell.setObjectProperty(AgentPropertyIds.valueOf(restrictionColumn), masked);
 			}
@@ -259,10 +254,20 @@ public class CSVLandUseUpdater extends AbstractUpdater implements TakeoverMessen
 				// LOGGING ->
 
 
+				// ignore allowance (e.g. PA) setting 
 
 				region.setOwnership(agent, cell);
+				
 
-				//@TODO adapt to the network service 
+				for (TakeoverObserver observer : takeoverObserver) {
+					observer.setTakeover(region, cell.getOwner(), agent);
+				}
+
+				for (CellVolatilityObserver o : cellVolatilityObserver) {
+					o.increaseVolatility(cell);
+				}
+				
+				//@TODO adapt to the network service  
 				//				if (region.getNetworkService() != null) {
 				//					if (region.getNetwork() != null) {
 				//M
