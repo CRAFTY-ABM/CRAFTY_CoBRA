@@ -72,12 +72,17 @@ public enum AgentPropertyIds implements PropertyId {
 	 */
 	FORBID_GIVING_UP_THRESHOLD_OVERWRITE,
 	
-	// Whether FR is mutable or not 
-	FR_IMMUTABLE,
+	/** 
+	 * For Spatial FR restriction institutions 
+	 * 
+	 */
 	
-	// @TODO make PA layers configurable in XML 
+	// FR is mutable or not (for urban mask)
+	FR_IMMUTABLE,
+	// Protected layer level 0 (e.g. LCM-based masking in the UK model)
+	PROTECTED_L0, 
+	// Protected layers level 1 and 2 
 	PROTECTED_L1,
-	PROTECTED_L2, 
-	PROTECTED_L0
+	PROTECTED_L2
 	
 }
