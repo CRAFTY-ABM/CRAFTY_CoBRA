@@ -78,7 +78,7 @@ public class Cell implements Initialisable, PropertyProvider<Object> {
 
 	PropertyProviderComp<Object> propertyProvider = null;
 
-	// store neighbourhood density
+	// store neighbourhood density (keep it here instead in AgentPropertyId for better performance)
 	public float[] neighbourhoodFrDensity;
 
 
