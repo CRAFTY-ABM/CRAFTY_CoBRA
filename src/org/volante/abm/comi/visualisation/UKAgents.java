@@ -33,10 +33,10 @@ public class UKAgents extends AgentTypeDisplay
 	}
 }
 
-//String.format("%06x", 0xFFFFFF & Color.BLUE.getRGB())
+// String.format("%06x", 0xFFFFFF & Color.BLUE.getRGB())
 
 // urban = red, cropland intensity classes from yellow to orange,
-// cropland is yellow/orange/brown, 
-// urban is red (or sometimes black), 
-// water is blue, grassland is light green, forest is dark green. 
-// Natural areas perhaps brown or purple, ...
+// cropland yellow/orange/brown, 
+// urban red or black, 
+// water blue, grassland is light green, forest is dark green. 
+// Natural areas brown or purple

@@ -236,7 +236,7 @@ public class DefaultLandUseAgent extends AbstractLandUseAgent {
 
 			takeover = incoming > (competitiveness + givingInThreshold * compPerfect); // 
 
-			// Could do a direct comparison (x% higher than the current competitiveness  also like (not implemented)  
+			// Could do a direct comparison (x% higher than the current competitiveness, also like (not implemented)  
 			// takeover = incoming > (competitiveness * ( 1 + givingInThreshold )); 
 
 		} else { 
