@@ -156,20 +156,23 @@ public class SimpleAllocationModel implements AllocationModel, CellVolatilityMes
 	}
 
 	/**
-	 * @param r
-	 * @param c
+	 * @param Region r
+	 * @param Cell c
 	 */
 	protected void createBestAgentForCell(Region r, Cell c) {
+		
 		List<FunctionalRole> fComps = new ArrayList<FunctionalRole>();
+		
 		for (FunctionalRole fRole : r.getFunctionalRoleMapByLabel().values()) {
 			fComps.add(fRole);
 		}
+		
 		double max = -Double.MAX_VALUE;
 		FunctionalRole bestFr = null;
 
 		double random;
 
-		// Find FR with highest competitiveness above his GU threshold:
+		// Find FR with highest competitiveness above its GU threshold:
 		for (FunctionalRole fr : fComps) {
 			random = r.getRandom().getURService().nextDouble(RandomPa.RANDOM_SEED_RUN_ALLOCATION.name());
 

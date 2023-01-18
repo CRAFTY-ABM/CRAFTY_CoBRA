@@ -3,7 +3,11 @@
   <groupId>de.cesr</groupId>
   <artifactId>CRAFTY_CoBRA</artifactId>
   <version>0.2.34</version>
-  <name>CRAFTY CoBRA</name>
+    <properties>
+        <maven.compiler.source>19</maven.compiler.source>
+        <maven.compiler.target>19</maven.compiler.target>
+    </properties>
+    <name>CRAFTY CoBRA</name>
   <description>Competition for Resources between Agent Functional Types (CRAFTY) Component Based Role Agents (CoBRA)</description>
   
   <developers>

@@ -47,6 +47,7 @@ import org.volante.abm.data.Capital;
 import org.volante.abm.data.Cell;
 import org.volante.abm.data.ModelData;
 import org.volante.abm.data.Region;
+import org.volante.abm.institutions.Institutions;
 import org.volante.abm.models.utils.CellVolatilityObserver;
 import org.volante.abm.models.utils.GivingInStatisticsMessenger;
 import org.volante.abm.models.utils.TakeoverMessenger;
@@ -270,51 +271,65 @@ implements TakeoverMessenger, GivingInStatisticsMessenger {
 		// <- LOGGING
 		logger.info("Apply Try-to-come-in-mode " + tryToComeInMode);
 		// LOGGING ->
-		Map<FunctionalRole, Double> scores;
+		Map<FunctionalRole, Double> scores = scoreMap(fComps, compScore);
 		double maxProb;
 
 		// Tricky to parallelise as each allocation alters competitiveness. 
 
+
+		boolean tookoverHappened = true;
+		maxProb = 0.0;
+ 
 		for (int i = 0; i < numTakeoversDerived; i++) {
 
 			// updating supply/demand is done in r.setOwnership(agent, c);
-
-			// Update scores (for each FR), which changes in the course as new ownerships are set in trytoComeIn()
-			scores = scoreMap(fComps, compScore); 
-
-			if (logger.isDebugEnabled()) { 
-				logger.debug(scores);
-			}
+ 
 			
-			// sum of the scores
-			maxProb = 0.0;
-			for (double d : scores.values()) {
-				maxProb += d;
-			}
-
-			// normalise scores:
-			for (Map.Entry<FunctionalRole, Double> entry : scores.entrySet()) {
-				if (maxProb == 0) {
-					scores.put(entry.getKey(), 1.0 / scores.size());
-				} else {
-					scores.put(entry.getKey(), entry.getValue() / maxProb);
+			if (tookoverHappened) {
+				// Update scores (for each FR), which changes in the course as new ownerships are set in trytoComeIn()
+				scores = scoreMap(fComps, compScore); 
+				
+				// sum of the scores
+				maxProb = 0.0;
+				
+				for (double d : scores.values()) {
+					maxProb += d;
 				}
+
+				// normalise scores:
+				for (Map.Entry<FunctionalRole, Double> entry : scores.entrySet()) {
+					if (maxProb == 0) {
+						scores.put(entry.getKey(), 1.0 / scores.size());
+					} else {
+						scores.put(entry.getKey(), entry.getValue() / maxProb);
+					}
+				}
+				
+
+				if (logger.isDebugEnabled()) { 
+					logger.debug(scores);
+				}
+				
+			} else {
+				// take over didn't happen in the previous iteration, thus keep the scores
 			}
+ 
+ 
 
 			// Try to come in the order of the normalised scores (= competitiveness ^ probabilityExponent
 			// Resample this each time to deal with changes in supply affecting competitiveness
 			// com.moseph.modelutils.Utilities.sample() samples from the map of probabilities (i.e. T -> prob of T)  
 
-			
-			FunctionalRole fr_try = sample(scores, false, r.getRandom().getURService(), RandomPa.RANDOM_SEED_RUN_ALLOCATION.name());
-			
-//			if (!fr_try.getLabel().equals("Ur")) {
-//				logger.debug(scores);
-//			}
-			
-			tryToComeIn(fr_try, r);
 
-			if (i % 1000 == 0) {
+			FunctionalRole fr_try = sample(scores, false, r.getRandom().getURService(), RandomPa.RANDOM_SEED_RUN_ALLOCATION.name());
+
+			//  	if (!fr_try.getLabel().equals("Ur")) {
+			//  		logger.debug(scores);
+			//  	}
+
+			tookoverHappened = tryToComeIn(fr_try, r);
+
+			if (i % 500 == 0) {
 				logger.info(i + 1 + " of " + numTakeoversDerived +" cells tried to come in");
 			}
 		}
@@ -322,9 +337,10 @@ implements TakeoverMessenger, GivingInStatisticsMessenger {
 
 	/**
 	 * Tries to create one of the given agents if it can take over a cell
-	 * 
+	 *
 	 * @param fr
 	 * @param r
+	 * @return
 	 */
 	/*
 	 * public void tryToComeIn( final PotentialAgent a, final Region r ) { if( a == null ) return; //In the rare case
@@ -339,10 +355,14 @@ implements TakeoverMessenger, GivingInStatisticsMessenger {
 	 * c.getOwner().canTakeOver( c, competitiveness.get(c) ); if( canTake ) { r.setOwnership( agent, c ); break; } } }
 	 */
 
-	public void tryToComeIn(final FunctionalRole fr, final Region r) {
+	public boolean tryToComeIn(final FunctionalRole fr, final Region r) {
+		
 		if (fr == null) {
-			return; // In the rare case that all have 0 competitiveness, a can be null
+			return false; // In the rare case that all have 0 competitiveness, a can be null
 		}
+
+		
+		// @TODO does it have to be sampled again for every takeover? (4.1.2021 by ABS)
 
 		Map<Cell, Double> competitiveness = scoreMap(sampleN(r.getCells(), numSearchedCells,
 				r.getRandom().getURService(), RandomPa.RANDOM_SEED_RUN_ALLOCATION.name()), new Score<Cell>() {
@@ -352,31 +372,22 @@ implements TakeoverMessenger, GivingInStatisticsMessenger {
 			}
 		});
 
-		// @TODO doesn't have to be sampled again for every takeover? (4.1.2021 by ABS)
-
-		//		Map<Cell, Double> competitiveness = scoreMap(searchedCells, new Score<Cell>() {
-		//			@Override
-		//			public double getScore(Cell c) {
-		//				return r.getCompetitiveness(fr, c);
-		//			}
-		//		});
-
-
+ 
 		List<Cell> sorted = new ArrayList<>(competitiveness.keySet());
 
 		switch (tryToComeInMode) {
-			case SORTED_CELLS:
-				Collections.sort(sorted, new ScoreComparator<>(competitiveness));
-				break;
+		case SORTED_CELLS:
+			Collections.sort(sorted, new ScoreComparator<>(competitiveness));
+			break;
 
-			case REVERSE_SORTED_CELLS:
-				Collections.sort(sorted, new ScoreComparator<>(competitiveness));
-				Collections.reverse(sorted);
-				break;
+		case REVERSE_SORTED_CELLS:
+			Collections.sort(sorted, new ScoreComparator<>(competitiveness));
+			Collections.reverse(sorted);
+			break;
 
-			case RANDOM_CELL_ORDER:
-				Utilities.shuffle(sorted, r.getRandom().getURService(), RandomPa.RANDOM_SEED_RUN_ALLOCATION.name());
-				break;
+		case RANDOM_CELL_ORDER:
+			Utilities.shuffle(sorted, r.getRandom().getURService(), RandomPa.RANDOM_SEED_RUN_ALLOCATION.name());
+			break;
 		}
 
 		// LOGGING
@@ -392,83 +403,113 @@ implements TakeoverMessenger, GivingInStatisticsMessenger {
 
 		double newAgentsGU = fr.getSampledGivingUpThreshold(); 
 
+		
+		boolean isAllowed;
+		double competitiveness_cell;
+		boolean canComein; 
+		boolean canTakeOver;
+		
+		LandUseAgent owner_cell;
+		LandUseAgent agent;
+		Institutions institution = r.getInstitutions();
+		
+		
+		boolean takeoverHappened = false;
+		
+		
 		for (Cell c : sorted) {
 
 			// if (competitiveness.get(c) < a.getGivingUp()) return;
 
-			boolean canComein = competitiveness.get(c) > newAgentsGU;
+			
+			isAllowed =  institution.isAllowed(fr, c); // e.g., protected area
 
-			if (canComein) {
-
-				boolean isAllowed =  r.getInstitutions().isAllowed(fr, c); // e.g., protected area
-
-				if (isAllowed) {
-
-					boolean canTakeOver = c.getOwner().canTakeOver(c, competitiveness.get(c));
-
-					if (canTakeOver) { 
-
-						LandUseAgent agent = agentFinder.findAgent(c, Integer.MIN_VALUE, fr.getSerialID());
-
-						agent.setProperty(AgentPropertyIds.GIVING_UP_THRESHOLD, // @TODO print out in cell table
-								newAgentsGU);
-
-						for (TakeoverObserver observer : takeoverObserver) {
-							observer.setTakeover(r, c.getOwner(), agent);
-						}
-
-						for (CellVolatilityObserver o : cellVolatilityObserver) {
-							o.increaseVolatility(c);
-						}
-
-						// <- LOGGING
-						if (logger.isDebugEnabled()) {
-							logger.debug("Ownership from :" + c.getOwner() + " --> " + agent);
-							logger.debug("Take over cell " + sorted.indexOf(c) + " of " + sorted.size());
-						}
-						// LOGGING ->
-
-						for (GivingInStatisticsObserver observer : this.statisticsObserver) {
-							observer.setNumberSearchedCells(r, fr, sorted.indexOf(c) + 1);
-						}
-
-						r.setOwnership(agent, c);
-
-						if (r.getNetworkService() != null) {
-							if (r.getNetwork() != null) {
-
-								if (r.getGeography() != null && agent instanceof GeoAgent) {
-									((GeoAgent) agent).addToGeography();
-								}
-								if (agent instanceof SocialAgent) {
-									r.getNetworkService().addAndLinkNode(r.getNetwork(), (SocialAgent) agent);
-								}
-							} else {
-								if (!networkNullErrorOccurred) {
-									logger.warn(
-											"Network object not present during creation of new agent (subsequent error messages are suppressed)");
-									networkNullErrorOccurred = true;
-								}
-							}
-						}
-
-						// decided not to remove c from searched cells (Jan 2021)
- 
-						break; // stop searching
-
-					} else {
-						// not competitive enough
-					} 
-				}else {
-					// not allowed 
-
-				} 
-			}else { 
-				// less competitive than threshold
-
+			if (!isAllowed) {
+				continue;	 	// not allowed 
 			}
+
+			
+			competitiveness_cell = competitiveness.get(c);
+			
+			canComein = competitiveness_cell > newAgentsGU;
+
+			if (!canComein) {
+				continue;	// not competitive enough
+			}
+ 
+			// owner of the cell
+			owner_cell = c.getOwner();
+			
+		    canTakeOver = owner_cell.canTakeOver(c, competitiveness_cell);
+
+			if (!canTakeOver) { 
+				continue; // less competitive than threshold
+			}
+
+
+			agent = agentFinder.findAgent(c, Integer.MIN_VALUE, fr.getSerialID());
+
+			agent.setProperty(AgentPropertyIds.GIVING_UP_THRESHOLD, // @TODO print out in cell table
+					newAgentsGU);
+
+			
+			
+			for (TakeoverObserver observer : takeoverObserver) {
+				observer.setTakeover(r, owner_cell, agent);
+			}
+
+			for (CellVolatilityObserver o : cellVolatilityObserver) {
+				o.increaseVolatility(c);
+			}
+
+			// <- LOGGING
+			if (logger.isDebugEnabled()) {
+				logger.debug("Ownership from :" + owner_cell + " --> " + agent);
+				logger.debug("Take over cell " + sorted.indexOf(c) + " of " + sorted.size());
+			}
+			// LOGGING ->
+
+			for (GivingInStatisticsObserver observer : this.statisticsObserver) {
+				observer.setNumberSearchedCells(r, fr, sorted.indexOf(c) + 1);
+			}
+
+			r.setOwnership(agent, c);
+
+			if (r.getNetworkService() != null) {
+				if (r.getNetwork() != null) {
+
+					if (r.getGeography() != null && agent instanceof GeoAgent) {
+						((GeoAgent) agent).addToGeography();
+					}
+					if (agent instanceof SocialAgent) {
+						r.getNetworkService().addAndLinkNode(r.getNetwork(), (SocialAgent) agent);
+					}
+				} else {
+					if (!networkNullErrorOccurred) {
+						logger.warn(
+								"Network object not present during creation of new agent (subsequent error messages are suppressed)");
+						networkNullErrorOccurred = true;
+					}
+				}
+			}
+
+			// decided not to remove c from searched cells (Jan 2021)
+			takeoverHappened = true;
+			break; // stop searching 
+
+
 		}
+		
+		// <- LOGGING
+		if (takeoverHappened && logger.isDebugEnabled()) { 
+			logger.debug("Takeover happened.");
+		}  
+		// LOGGING ->
+		
+		return takeoverHappened;
+		
 	}
+
 
 	@Override
 	public void registerTakeoverOberserver(TakeoverObserver observer) {
